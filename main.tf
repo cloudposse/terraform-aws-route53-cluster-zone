@@ -1,12 +1,9 @@
 # Define composite variables for resources
-resource "null_resource" "default" {
-  triggers = {
-    id = "${lower(format("%v-%v-%v", var.namespace, var.stage, var.name))}"
-  }
-
-  lifecycle {
-    create_before_destroy = true
-  }
+module "label" {
+  source    = "git::https://github.com/cloudposse/tf_label.git?ref=init"
+  namespace = "${var.namespace}"
+  name      = "${var.name}"
+  stage     = "${var.stage}"
 }
 
 data "aws_route53_zone" "parent" {
@@ -17,7 +14,7 @@ resource "aws_route53_zone" "default" {
   name = "${var.stage}.${data.aws_route53_zone.parent.name}"
 
   tags {
-    Name      = "${null_resource.default.triggers.id}"
+    Name      = "${module.label.value}"
     Namespace = "${var.namespace}"
     Stage     = "${var.stage}"
   }
