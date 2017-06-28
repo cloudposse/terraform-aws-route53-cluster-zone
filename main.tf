@@ -14,7 +14,7 @@ resource "aws_route53_zone" "default" {
   name = "${var.stage}.${data.aws_route53_zone.parent.name}"
 
   tags {
-    Name      = "${module.label.value}"
+    Name      = "${module.label.id}"
     Namespace = "${var.namespace}"
     Stage     = "${var.stage}"
   }
