@@ -1,16 +1,19 @@
 # Define composite variables for resources
 module "label" {
-  source    = "git::https://github.com/cloudposse/tf_label.git?ref=init"
+  source    = "git::https://github.com/cloudposse/tf_label.git?ref=provider"
+  provider  = "${var.provider}"
   namespace = "${var.namespace}"
   name      = "${var.name}"
   stage     = "${var.stage}"
 }
 
 data "aws_route53_zone" "parent" {
+  provider  = "${var.provider}"
   zone_id = "${var.parent_zone_id}"
 }
 
 resource "aws_route53_zone" "default" {
+  provider  = "${var.provider}"
   name = "${var.stage}.${data.aws_route53_zone.parent.name}"
 
   tags {
@@ -21,6 +24,7 @@ resource "aws_route53_zone" "default" {
 }
 
 resource "aws_route53_record" "ns" {
+  provider  = "${var.provider}"
   zone_id = "${var.parent_zone_id}"
   name    = "${aws_route53_zone.default.name}"
   type    = "NS"
@@ -35,6 +39,7 @@ resource "aws_route53_record" "ns" {
 }
 
 resource "aws_route53_record" "soa" {
+  provider  = "${var.provider}"
   zone_id = "${aws_route53_zone.default.id}"
   name    = "${aws_route53_zone.default.name}"
   type    = "SOA"
