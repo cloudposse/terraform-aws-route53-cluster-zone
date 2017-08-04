@@ -14,6 +14,10 @@ variable "parent_zone_id" {
   default = ""
 }
 
+variable "parent_zone_name" {
+  default = ""
+}
+
 variable "ttl" {
   default = "300"
 }
