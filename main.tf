@@ -6,18 +6,33 @@ module "label" {
   stage     = "${var.stage}"
 }
 
-data "aws_route53_zone" "parent" {
+resource "null_resource" "parent" {
+  triggers = {
+    zone_id   = "${format("%v", length(var.parent_zone_id) > data.aws_route53_zone.parent_by_zone_id.zone_id : data.aws_route53_zone.parent_by_zone_name.zone_id )}"
+    zone_name = "${format("%v", length(var.parent_zone_id) > data.aws_route53_zone.parent_by_zone_id.name : data.aws_route53_zone.parent_by_zone_name.name )}"
+  }
+
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+data "aws_route53_zone" "parent_by_zone_id" {
+  count = "${signum(length(var.parent_zone_id))}"
   zone_id = "${var.parent_zone_id}"
+}
+
+data "aws_route53_zone" "parent_by_zone_name" {
+  count = "${signum(length(var.parent_zone_name))}"
   name = "${var.parent_zone_name}"
 }
 
 resource "aws_route53_zone" "default" {
-  name = "${var.stage}.${data.aws_route53_zone.parent.name}"
+  name = "${var.stage}.${null_resource.parent.triggers.zone_name}"
   tags = "${module.label.tags}"
 }
 
 resource "aws_route53_record" "ns" {
-  zone_id = "${data.aws_route53_zone.parent.zone_id}"
+  zone_id = "${null_resource.parent.triggers.zone_id}"
   name    = "${aws_route53_zone.default.name}"
   type    = "NS"
   ttl     = "60"
