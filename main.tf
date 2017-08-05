@@ -1,6 +1,6 @@
 # Define composite variables for resources
 module "label" {
-  source = "git::https://github.com/cloudposse/tf_label.git?ref=master"
+  source    = "git::https://github.com/cloudposse/tf_label.git?ref=master"
   namespace = "${var.namespace}"
   name      = "${var.name}"
   stage     = "${var.stage}"
@@ -16,14 +16,15 @@ resource "null_resource" "parent" {
     create_before_destroy = true
   }
 }
+
 data "aws_route53_zone" "parent_by_zone_id" {
-  count = "${signum(length(var.parent_zone_id))}"
+  count   = "${signum(length(var.parent_zone_id))}"
   zone_id = "${var.parent_zone_id}"
 }
 
 data "aws_route53_zone" "parent_by_zone_name" {
   count = "${signum(length(var.parent_zone_name))}"
-  name = "${var.parent_zone_name}"
+  name  = "${var.parent_zone_name}"
 }
 
 resource "aws_route53_zone" "default" {
