@@ -12,6 +12,6 @@ module "domain" {
   namespace            = "example"
   stage                = "dev"
   name                 = "foobar"
-  parent_dns_zone_name = "example.com"
+  parent_zone_name = "example.com"
 }
 ```
