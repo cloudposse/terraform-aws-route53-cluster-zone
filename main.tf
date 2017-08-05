@@ -17,7 +17,7 @@ resource "aws_route53_zone" "default" {
 }
 
 resource "aws_route53_record" "ns" {
-  zone_id = "${var.parent_zone_id}"
+  zone_id = "${data.aws_route53_zone.parent.zone_id}"
   name    = "${aws_route53_zone.default.name}"
   type    = "NS"
   ttl     = "60"
