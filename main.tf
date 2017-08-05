@@ -8,8 +8,8 @@ module "label" {
 
 resource "null_resource" "parent" {
   triggers = {
-    zone_id   = "${format("%v", length(var.parent_zone_id) > data.aws_route53_zone.parent_by_zone_id.zone_id : data.aws_route53_zone.parent_by_zone_name.zone_id )}"
-    zone_name = "${format("%v", length(var.parent_zone_id) > data.aws_route53_zone.parent_by_zone_id.name : data.aws_route53_zone.parent_by_zone_name.name )}"
+    zone_id   = "${format("%v", length(var.parent_zone_id) > 0 ? data.aws_route53_zone.parent_by_zone_id.zone_id : data.aws_route53_zone.parent_by_zone_name.zone_id )}"
+    zone_name = "${format("%v", length(var.parent_zone_id) > 0 ? data.aws_route53_zone.parent_by_zone_id.name : data.aws_route53_zone.parent_by_zone_name.name )}"
   }
 
   lifecycle {

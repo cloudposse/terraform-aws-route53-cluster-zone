@@ -1,9 +1,9 @@
 output "parent_zone_id" {
-  value = "${data.aws_route53_zone.parent.zone_id}"
+  value = "${null_resource.parent.triggers.zone_id}"
 }
 
 output "parent_zone_name" {
-  value = "${data.aws_route53_zone.parent.name}"
+  value = "${null_resource.parent.triggers.zone_name}"
 }
 
 output "zone_id" {
