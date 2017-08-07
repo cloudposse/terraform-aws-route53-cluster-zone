@@ -40,7 +40,7 @@ data "aws_route53_zone" "parent_by_zone_name" {
 }
 
 resource "aws_route53_zone" "default" {
-  name = "${data.template_file.zone_name.output}"
+  name = "${data.template_file.zone_name.rendered}"
   tags = "${module.label.tags}"
 }
 
