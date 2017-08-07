@@ -6,6 +6,18 @@ module "label" {
   stage     = "${var.stage}"
 }
 
+data "template_file" "zone_name" {
+  template = "${var.zone_name}"
+
+  vars {
+    namespace        = "${var.namespace}"
+    name             = "${var.name}"
+    stage            = "${var.stage}"
+    id               = "${module.label.id}"
+    parent_zone_name = "${null_resource.parent.triggers.zone_name}"
+  }
+}
+
 resource "null_resource" "parent" {
   triggers = {
     zone_id   = "${format("%v", length(var.parent_zone_id) > 0 ? join(" ", data.aws_route53_zone.parent_by_zone_id.*.zone_id) : join(" ", data.aws_route53_zone.parent_by_zone_name.*.zone_id) )}"
@@ -28,7 +40,7 @@ data "aws_route53_zone" "parent_by_zone_name" {
 }
 
 resource "aws_route53_zone" "default" {
-  name = "${var.stage}.${null_resource.parent.triggers.zone_name}"
+  name = "${data.template_file.zone_name.output}"
   tags = "${module.label.tags}"
 }
 
