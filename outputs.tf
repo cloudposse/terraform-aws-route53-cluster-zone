@@ -11,7 +11,7 @@ output "zone_id" {
 }
 
 output "zone_name" {
-  value = "${replace(aws_route53_zone.default.name, "/\.$/", ""}"
+  value = "${replace(aws_route53_zone.default.name, "/\.$/", "")}"
 }
 
 output "fqdn" {
