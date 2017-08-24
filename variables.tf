@@ -1,14 +1,8 @@
-variable "namespace" {
-  default = "global"
-}
+variable "namespace" {}
 
-variable "stage" {
-  default = "default"
-}
+variable "stage" {}
 
-variable "name" {
-  default = "domain"
-}
+variable "name" {}
 
 variable "zone_name" {
   default = "$${stage}.$${parent_zone_name}"
