@@ -1,15 +1,16 @@
-# tf_domain
+# terraform-aws-route53-cluster-zone
 
-Easily define consistent cluster domains on Route53.
+Terraform module to easily define consistent cluster domains on `Route53`.
+
 
 ## Usage
 
 Define a cluster domain of `foobar.example.com` using a custom naming convention for `zone_name`.
 The `zone_name` variable is optional. It defaults to `$${stage}.$${parent_zone_name}`.
 
-```
+```hcl
 module "domain" {
-  source               = "git::https://github.com/cloudposse/tf_domain.git?ref=master"
+  source               = "git::https://github.com/cloudposse/terraform-aws-route53-cluster-zone.git?ref=master"
   namespace            = "example"
   stage                = "dev"
   name                 = "foobar"
@@ -17,3 +18,8 @@ module "domain" {
   zone_name            = "$${name}.$${stage}.$${parent_zone_name}"
 }
 ```
+
+
+## License
+
+Apache 2 License. See [`LICENSE`](LICENSE) for full details.
