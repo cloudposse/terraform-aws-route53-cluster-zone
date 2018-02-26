@@ -1,4 +1,4 @@
-# terraform-aws-route53-cluster-zone
+# terraform-aws-route53-cluster-zone [![Build Status](https://travis-ci.org/cloudposse/terraform-aws-route53-cluster-zone.svg?branch=master)](https://travis-ci.org/cloudposse/terraform-aws-route53-cluster-zone)
 
 Terraform module to easily define consistent cluster domains on `Route53`.
 
@@ -13,7 +13,7 @@ module "domain" {
   source               = "git::https://github.com/cloudposse/terraform-aws-route53-cluster-zone.git?ref=master"
   namespace            = "example"
   stage                = "dev"
-  name                 = "foobar"
+  name                 = "cluster"
   parent_zone_name     = "example.com"
   zone_name            = "$${name}.$${stage}.$${parent_zone_name}"
 }
