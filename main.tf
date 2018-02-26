@@ -9,7 +9,7 @@ module "label" {
 }
 
 data "template_file" "zone_name" {
-  template = "${replace(var.zone_name, "$$", "$")}"
+  template = "${replace(var.zone_name, "$$$$", "$")}"
 
   vars {
     namespace        = "${var.namespace}"

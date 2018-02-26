@@ -13,7 +13,7 @@ module "domain" {
   source               = "git::https://github.com/cloudposse/terraform-aws-route53-cluster-zone.git?ref=master"
   namespace            = "example"
   stage                = "dev"
-  name                 = "foobar"
+  name                 = "cluster"
   parent_zone_name     = "example.com"
   zone_name            = "$${name}.$${stage}.$${parent_zone_name}"
 }
