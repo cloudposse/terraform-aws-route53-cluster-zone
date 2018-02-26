@@ -19,7 +19,7 @@ variable "parent_zone_name" {
 variable "delimiter" {
   type        = "string"
   default     = "-"
-  description = "Delimiter to be used between `name`, `namespace`, `stage`, etc."
+  description = "Delimiter to be used between `name`, `namespace`, `stage`, `attributes`"
 }
 
 variable "attributes" {
@@ -31,5 +31,5 @@ variable "attributes" {
 variable "tags" {
   type        = "map"
   default     = {}
-  description = "Additional tags (e.g. `map('BusinessUnit`,`XYZ`)"
+  description = "Additional tags (e.g. map('BusinessUnit','XYZ')"
 }
