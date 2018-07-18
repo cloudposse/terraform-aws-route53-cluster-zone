@@ -1,19 +1,28 @@
-variable "namespace" {}
+variable "name" {
+  description = "The Name of the application or solution  (e.g. `bastion` or `portal`)"
+}
 
-variable "stage" {}
+variable "namespace" {
+  description = "Namespace (e.g. `cp` or `cloudposse`)"
+}
 
-variable "name" {}
+variable "stage" {
+  description = "Stage (e.g. `prod`, `dev`, `staging`)"
+}
 
 variable "zone_name" {
-  default = "$${stage}.$${parent_zone_name}"
+  default     = "$${stage}.$${parent_zone_name}"
+  description = "Zone name"
 }
 
 variable "parent_zone_id" {
-  default = ""
+  default     = ""
+  description = "ID of the hosted zone to contain this record  (or specify `parent_zone_name`)"
 }
 
 variable "parent_zone_name" {
-  default = ""
+  default    = ""
+  escription = "Name of the hosted zone to contain this record (or specify `parent_zone_id`)"
 }
 
 variable "delimiter" {

@@ -1,6 +1,10 @@
-SHELL = /bin/bash
+SHELL := /bin/bash
 
-include $(shell curl --silent -o .build-harness "https://raw.githubusercontent.com/cloudposse/build-harness/master/templates/Makefile.build-harness"; echo .build-harness)
+# List of targets the `readme` target should call before generating the readme
+export README_DEPS ?= docs/targets.md docs/terraform.md
 
+-include $(shell curl -sSL -o .build-harness "https://git.io/build-harness"; echo .build-harness)
+
+## Lint terraform code
 lint:
-	$(SELF) terraform:install terraform:get-modules terraform:get-plugins terraform:lint terraform:validate
+	$(SELF) terraform/install terraform/get-modules terraform/get-plugins terraform/lint terraform/validate
