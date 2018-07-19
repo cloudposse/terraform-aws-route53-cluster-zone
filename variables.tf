@@ -21,8 +21,8 @@ variable "parent_zone_id" {
 }
 
 variable "parent_zone_name" {
-  default    = ""
-  escription = "Name of the hosted zone to contain this record (or specify `parent_zone_id`)"
+  default     = ""
+  description = "Name of the hosted zone to contain this record (or specify `parent_zone_id`)"
 }
 
 variable "delimiter" {
