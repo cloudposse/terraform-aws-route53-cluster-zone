@@ -1,0 +1,75 @@
+---
+#
+# This is the canonical configuration for the `README.md`
+# Run `make readme` to rebuild the `README.md`
+#
+
+# Name of this project
+name: terraform-aws-route53-cluster-zone
+
+# Logo for this project
+#logo: docs/logo.png
+
+# License of this project
+license: "APACHE2"
+
+# Canonical GitHub repo
+github_repo: cloudposse/terraform-aws-route53-cluster-zone
+
+# Badges to display
+badges:
+  - name: "Build Status"
+    image: "https://travis-ci.org/cloudposse/terraform-aws-route53-cluster-zone.svg?branch=master"
+    url: "https://travis-ci.org/cloudposse/terraform-aws-route53-cluster-zone"
+  - name: "Latest Release"
+    image: "https://img.shields.io/github/release/cloudposse/terraform-aws-route53-cluster-zone.svg"
+    url: "https://github.com/cloudposse/terraform-aws-route53-cluster-zone/releases/latest"
+  - name: "Slack Community"
+    image: "https://slack.cloudposse.com/badge.svg"
+    url: "https://slack.cloudposse.com"
+
+related:
+  - name: "terraform-aws-route53-cluster-hostname"
+    description: "Terraform module to define a consistent AWS Route53 hostname"
+    url: "https://github.com/cloudposse/terraform-aws-route53-cluster-hostname"
+  - name: "terraform-aws-route53-alias"
+    description: "Terraform Module to Define Vanity Host/Domain (e.g. `brand.com`) as an ALIAS record"
+    url: "https://github.com/cloudposse/terraform-aws-route53-alias"
+  - name: "terraform-aws-kops-route53"
+    description: "Terraform module to lookup the IAM role associated with `kops` masters, and attach an IAM policy to the role with permissions to modify Route53 record sets"
+    url: "https://github.com/cloudposse/terraform-aws-kops-route53"
+
+# Short description of this project
+description: |-
+  Terraform module to easily define consistent cluster domains on `Route53`.
+
+# How to use this project
+usage: |-
+  Define a cluster domain of `foobar.example.com` using a custom naming convention for `zone_name`.
+  The `zone_name` variable is optional. It defaults to `$${stage}.$${parent_zone_name}`.
+
+  ```hcl
+  module "domain" {
+    source               = "git::https://github.com/cloudposse/terraform-aws-route53-cluster-zone.git?ref=master"
+    namespace            = "example"
+    stage                = "dev"
+    name                 = "cluster"
+    parent_zone_name     = "example.com"
+    zone_name            = "$${name}.$${stage}.$${parent_zone_name}"
+  }
+  ```
+
+include:
+  - "docs/targets.md"
+  - "docs/terraform.md"
+
+# Contributors to this project
+contributors:
+  - name: "Erik Osterman"
+    github: "osterman"
+  - name: "Igor Rodionov"
+    github: "goruha"
+  - name: "Andriy Knysh"
+    github: "aknysh"
+  - name: "Valeriy"
+    github: "drama17"
