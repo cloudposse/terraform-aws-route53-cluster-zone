@@ -11,7 +11,7 @@ variable "stage" {
 }
 
 variable "zone_name" {
-  default     = "$${stage}.$${parent_zone_name}"
+  default     = "$${name}.$${stage}.$${parent_zone_name}"
   description = "Zone name"
 }
 
@@ -44,6 +44,6 @@ variable "tags" {
 }
 
 variable "enabled" {
-  default     = "true"
+  default     = "false"
   description = "Set to false to prevent the module from creating or accessing any resources"
 }

@@ -1,5 +1,5 @@
 module "label" {
-  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.3.7"
+  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.3.3"
   namespace  = "${var.namespace}"
   stage      = "${var.stage}"
   name       = "${var.name}"
@@ -59,10 +59,10 @@ resource "aws_route53_record" "ns" {
   ttl     = "60"
 
   records = [
-    "${join("", aws_route53_zone.default.*.name_servers.0)}",
-    "${join("", aws_route53_zone.default.*.name_servers.1)}",
-    "${join("", aws_route53_zone.default.*.name_servers.2)}",
-    "${join("", aws_route53_zone.default.*.name_servers.3)}",
+    "${aws_route53_zone.default.name_servers.0}",
+    "${aws_route53_zone.default.name_servers.1}",
+    "${aws_route53_zone.default.name_servers.2}",
+    "${aws_route53_zone.default.name_servers.3}",
   ]
 }
 
@@ -74,6 +74,6 @@ resource "aws_route53_record" "soa" {
   ttl     = "30"
 
   records = [
-    "${join("", aws_route53_zone.default.*.name_servers.0)}. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400",
+    "${aws_route53_zone.default.name_servers.0}. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400",
   ]
 }

@@ -14,7 +14,7 @@ output "zone_id" {
 }
 
 output "zone_name" {
-  value       = "${join("", replace(aws_route53_zone.default.*.name, "/\\.$$/", ""))}"
+  value       = "${replace(join("", aws_route53_zone.default.*.name), "/\\.$$/", "")}"
   description = "Route53 DNS Zone name"
 }
 
