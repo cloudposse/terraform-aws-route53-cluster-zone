@@ -5,7 +5,7 @@
 |------|-------------|:----:|:-----:|:-----:|
 | attributes | Additional attributes (e.g. `1`) | list | `<list>` | no |
 | delimiter | Delimiter to be used between `name`, `namespace`, `stage` and `attributes` | string | `-` | no |
-| enabled | Set to false to prevent the module from creating or accessing any resources | string | `false` | no |
+| enabled | Set to false to prevent the module from creating or accessing any resources | string | `true` | no |
 | name | The Name of the application or solution  (e.g. `bastion` or `portal`) | string | - | yes |
 | namespace | Namespace (e.g. `eg` or `cp`) | string | - | yes |
 | parent_zone_id | ID of the hosted zone to contain this record  (or specify `parent_zone_name`) | string | `` | no |
