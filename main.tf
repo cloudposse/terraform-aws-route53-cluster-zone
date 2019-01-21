@@ -9,6 +9,8 @@ module "label" {
   enabled    = "${var.enabled}"
 }
 
+data "aws_region" "default" {}
+
 data "template_file" "zone_name" {
   count    = "${var.enabled == "true" ? 1 : 0}"
   template = "${replace(var.zone_name, "$$$$", "$")}"
@@ -20,6 +22,7 @@ data "template_file" "zone_name" {
     id               = "${module.label.id}"
     attributes       = "${module.label.attributes}"
     parent_zone_name = "${join("", null_resource.parent.*.triggers.zone_name)}"
+    region           = "${data.aws_region.default.name}"
   }
 }
 
