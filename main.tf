@@ -71,11 +71,12 @@ resource "aws_route53_record" "ns" {
 }
 
 resource "aws_route53_record" "soa" {
-  count   = "${var.enabled == "true" ? 1 : 0}"
-  zone_id = "${join("", aws_route53_zone.default.*.id)}"
-  name    = "${join("", aws_route53_zone.default.*.name)}"
-  type    = "SOA"
-  ttl     = "30"
+  count           = "${var.enabled == "true" ? 1 : 0}"
+  allow_overwrite = true
+  zone_id         = "${join("", aws_route53_zone.default.*.id)}"
+  name            = "${join("", aws_route53_zone.default.*.name)}"
+  type            = "SOA"
+  ttl             = "30"
 
   records = [
     "${aws_route53_zone.default.name_servers.0}. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400",
