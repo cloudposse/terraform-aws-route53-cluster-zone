@@ -51,30 +51,6 @@ Define a cluster domain of `foobar.example.com` using a custom naming convention
 The `zone_name` variable is optional. It defaults to `$${stage}.$${parent_zone_name}`.
 
 ```hcl
-# Pin terraform version
-terraform {
-  required_version = "~> 0.12.0"
-}
-
-# Pin the providers
-# https://www.terraform.io/docs/configuration/providers.html
-# Any non-beta version >= 2.0.0 and < 3.0.0, e.g. 2.X.Y
-provider "aws" {
-  version = "~> 2.0"
-}
-
-provider "null" {
-  version = "~> 2.0"
-}
-
-provider "local" {
-  version = "~> 1.2"
-}
-
-provider "template" {
-  version = "~> 2.1"
-}
-
 module "domain" {
   source               = "git::https://github.com/cloudposse/terraform-aws-route53-cluster-zone.git?ref=master"
   namespace            = "eg"
@@ -82,13 +58,6 @@ module "domain" {
   name                 = "cluster"
   parent_zone_name     = "example.com"
   zone_name            = "$${name}.$${stage}.$${parent_zone_name}"
-
-  providers = {
-    aws      = "aws"
-    null     = "null"
-    local    = "local"
-    template = "template"
-  }
 }
 ```
 
