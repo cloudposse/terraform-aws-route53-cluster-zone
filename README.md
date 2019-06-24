@@ -3,7 +3,7 @@
 
 [![Cloud Posse][logo]](https://cpco.io/homepage)
 
-# terraform-aws-route53-cluster-zone [![Build Status](https://travis-ci.org/cloudposse/terraform-aws-route53-cluster-zone.svg?branch=master)](https://travis-ci.org/cloudposse/terraform-aws-route53-cluster-zone) [![Latest Release](https://img.shields.io/github/release/cloudposse/terraform-aws-route53-cluster-zone.svg)](https://github.com/cloudposse/terraform-aws-route53-cluster-zone/releases/latest) [![Slack Community](https://slack.cloudposse.com/badge.svg)](https://slack.cloudposse.com)
+# terraform-aws-route53-cluster-zone [![Codefresh Build Status](https://g.codefresh.io/api/badges/pipeline/cloudposse/terraform-modules%2Fterraform-aws-route53-cluster-zone?type=cf-1)](https://g.codefresh.io/public/accounts/cloudposse/pipelines/5d10410aeccc627d26a8464b) [![Latest Release](https://img.shields.io/github/release/cloudposse/terraform-aws-route53-cluster-zone.svg)](https://github.com/cloudposse/terraform-aws-route53-cluster-zone/releases/latest) [![Slack Community](https://slack.cloudposse.com/badge.svg)](https://slack.cloudposse.com)
 
 
 Terraform module to easily define consistent cluster domains on `Route53`.
@@ -42,14 +42,19 @@ We literally have [*hundreds of terraform modules*][terraform_modules] that are 
 
 ## Usage
 
+
+**IMPORTANT:** The `master` branch is used in `source` just as an example. In your code, do not pin to `master` because there may be breaking changes between releases.
+Instead pin to the release tag (e.g. `?ref=tags/x.y.z`) of one of our [latest releases](https://github.com/cloudposse/terraform-aws-route53-cluster-zone/releases).
+
+
 Define a cluster domain of `foobar.example.com` using a custom naming convention for `zone_name`.
 The `zone_name` variable is optional. It defaults to `$${stage}.$${parent_zone_name}`.
 
 ```hcl
 module "domain" {
   source               = "git::https://github.com/cloudposse/terraform-aws-route53-cluster-zone.git?ref=master"
-  namespace            = "example"
-  stage                = "dev"
+  namespace            = "eg"
+  stage                = "test"
   name                 = "cluster"
   parent_zone_name     = "example.com"
   zone_name            = "$${name}.$${stage}.$${parent_zone_name}"
@@ -75,16 +80,16 @@ Available targets:
 
 | Name | Description | Type | Default | Required |
 |------|-------------|:----:|:-----:|:-----:|
-| attributes | Additional attributes (e.g. `1`) | list | `<list>` | no |
-| delimiter | Delimiter to be used between `name`, `namespace`, `stage` and `attributes` | string | `-` | no |
-| enabled | Set to false to prevent the module from creating or accessing any resources | string | `true` | no |
+| attributes | Additional attributes (e.g. `1`) | list(string) | `<list>` | no |
+| delimiter | Delimiter to be used between `namespace`, `stage`, `name` and `attributes` | string | `-` | no |
+| enabled | Set to false to prevent the module from creating or accessing any resources | bool | `true` | no |
 | name | The Name of the application or solution  (e.g. `bastion` or `portal`) | string | - | yes |
 | namespace | Namespace (e.g. `eg` or `cp`) | string | - | yes |
 | parent_zone_id | ID of the hosted zone to contain this record  (or specify `parent_zone_name`) | string | `` | no |
 | parent_zone_name | Name of the hosted zone to contain this record (or specify `parent_zone_id`) | string | `` | no |
 | stage | Stage (e.g. `prod`, `dev`, `staging`) | string | - | yes |
-| tags | Additional tags (e.g. map('BusinessUnit','XYZ') | map | `<map>` | no |
-| zone_name | Zone name | string | `$${name}.$${stage}.$${parent_zone_name}` | no |
+| tags | Additional tags (e.g. map('BusinessUnit','XYZ') | map(string) | `<map>` | no |
+| zone_name | Zone name | string | `$$${name}.$$${stage}.$$${parent_zone_name}` | no |
 
 ## Outputs
 

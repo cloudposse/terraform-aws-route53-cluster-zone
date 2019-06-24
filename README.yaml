@@ -32,9 +32,9 @@ github_repo: cloudposse/terraform-aws-route53-cluster-zone
 
 # Badges to display
 badges:
-  - name: "Build Status"
-    image: "https://travis-ci.org/cloudposse/terraform-aws-route53-cluster-zone.svg?branch=master"
-    url: "https://travis-ci.org/cloudposse/terraform-aws-route53-cluster-zone"
+  - name: "Codefresh Build Status"
+    image: "https://g.codefresh.io/api/badges/pipeline/cloudposse/terraform-modules%2Fterraform-aws-route53-cluster-zone?type=cf-1"
+    url: "https://g.codefresh.io/public/accounts/cloudposse/pipelines/5d10410aeccc627d26a8464b"
   - name: "Latest Release"
     image: "https://img.shields.io/github/release/cloudposse/terraform-aws-route53-cluster-zone.svg"
     url: "https://github.com/cloudposse/terraform-aws-route53-cluster-zone/releases/latest"
@@ -65,8 +65,8 @@ usage: |-
   ```hcl
   module "domain" {
     source               = "git::https://github.com/cloudposse/terraform-aws-route53-cluster-zone.git?ref=master"
-    namespace            = "example"
-    stage                = "dev"
+    namespace            = "eg"
+    stage                = "test"
     name                 = "cluster"
     parent_zone_name     = "example.com"
     zone_name            = "$${name}.$${stage}.$${parent_zone_name}"

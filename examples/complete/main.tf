@@ -1,8 +1,12 @@
+provider "aws" {
+  region = var.region
+}
+
 module "domain" {
   source           = "../../"
-  namespace        = "example"
-  stage            = "dev"
-  name             = "cluster"
-  parent_zone_name = "example.com"
-  zone_name        = "$${name}.$${stage}.$${parent_zone_name}"
+  namespace        = var.namespace
+  stage            = var.stage
+  name             = var.name
+  parent_zone_name = var.parent_zone_name
+  zone_name        = "$${name}.$${parent_zone_name}"
 }
