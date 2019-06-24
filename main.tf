@@ -21,7 +21,7 @@ data "template_file" "zone_name" {
     name             = var.name
     stage            = var.stage
     id               = module.label.id
-    attributes       = module.label.attributes
+    attributes       = join(var.delimiter, module.label.attributes)
     parent_zone_name = join("", null_resource.parent.*.triggers.zone_name)
     region           = data.aws_region.default.name
   }
