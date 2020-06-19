@@ -1,10 +1,10 @@
 output "parent_zone_id" {
-  value       = join("", null_resource.parent.*.triggers.zone_id)
+  value       = join("", data.aws_route53_zone.parent_zone.*.zone_id)
   description = "ID of the hosted zone to contain this record"
 }
 
 output "parent_zone_name" {
-  value       = join("", null_resource.parent.*.triggers.zone_name)
+  value       = join("", data.aws_route53_zone.parent_zone.*.name)
   description = "Name of the hosted zone to contain this record"
 }
 
