@@ -1,12 +1,13 @@
 module "label" {
-  source     = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.17.0"
-  namespace  = var.namespace
-  stage      = var.stage
-  name       = var.name
-  delimiter  = var.delimiter
-  attributes = var.attributes
-  tags       = var.tags
-  enabled    = var.enabled
+  source      = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.17.0"
+  namespace   = var.namespace
+  stage       = var.stage
+  environment = var.environment
+  name        = var.name
+  delimiter   = var.delimiter
+  attributes  = var.attributes
+  tags        = var.tags
+  enabled     = var.enabled
 }
 
 locals {
@@ -28,6 +29,7 @@ data "template_file" "zone_name" {
 
   vars = {
     namespace        = var.namespace
+    environment      = var.environment
     name             = var.name
     stage            = var.stage
     id               = module.label.id

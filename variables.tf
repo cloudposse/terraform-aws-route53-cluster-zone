@@ -8,6 +8,12 @@ variable "namespace" {
   description = "Namespace (e.g. `eg` or `cp`)"
 }
 
+variable "environment" {
+  default     = ""
+  type        = string
+  description = "Environment, e.g. 'prod', 'staging', 'dev', 'pre-prod', 'UAT'"
+}
+
 variable "stage" {
   type        = string
   description = "Stage (e.g. `prod`, `dev`, `staging`)"
