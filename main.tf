@@ -11,14 +11,15 @@ module "label" {
 }
 
 locals {
-  enabled = var.enabled ? 1 : 0
+  enabled                    = var.enabled ? 1 : 0
+  parent_zone_record_enabled = var.parent_zone_record_enabled && var.enabled ? 1 : 0
 }
 
 data "aws_region" "default" {
 }
 
 data "aws_route53_zone" "parent_zone" {
-  count   = local.enabled
+  count   = local.parent_zone_record_enabled
   zone_id = var.parent_zone_id
   name    = var.parent_zone_name
 }
@@ -34,7 +35,7 @@ data "template_file" "zone_name" {
     stage            = var.stage
     id               = module.label.id
     attributes       = join(var.delimiter, module.label.attributes)
-    parent_zone_name = join("", data.aws_route53_zone.parent_zone.*.name)
+    parent_zone_name = coalesce(join("", data.aws_route53_zone.parent_zone.*.name), var.parent_zone_name)
     region           = data.aws_region.default.name
   }
 }
@@ -46,7 +47,7 @@ resource "aws_route53_zone" "default" {
 }
 
 resource "aws_route53_record" "ns" {
-  count   = local.enabled
+  count   = local.parent_zone_record_enabled
   zone_id = join("", data.aws_route53_zone.parent_zone.*.zone_id)
   name    = join("", aws_route53_zone.default.*.name)
   type    = "NS"

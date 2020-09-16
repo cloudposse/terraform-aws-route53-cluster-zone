@@ -60,3 +60,9 @@ variable "enabled" {
   default     = true
   description = "Set to false to prevent the module from creating or accessing any resources"
 }
+
+variable "parent_zone_record_enabled" {
+  type        = bool
+  default     = true
+  description = "Whether to create the NS record on the parent zone. Useful for creating a cluster zone across accounts. `var.parent_zone_name` required if set to false."
+}
