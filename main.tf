@@ -1,24 +1,12 @@
-module "label" {
-  source      = "git::https://github.com/cloudposse/terraform-null-label.git?ref=tags/0.19.2"
-  namespace   = var.namespace
-  stage       = var.stage
-  environment = var.environment
-  name        = var.name
-  delimiter   = var.delimiter
-  attributes  = var.attributes
-  tags        = var.tags
-  enabled     = var.enabled
-}
-
 locals {
-  enabled = var.enabled ? 1 : 0
+  enabled                    = module.this.enabled ? 1 : 0
+  parent_zone_record_enabled = var.parent_zone_record_enabled && module.this.enabled ? 1 : 0
 }
 
-data "aws_region" "default" {
-}
+data "aws_region" "default" {}
 
 data "aws_route53_zone" "parent_zone" {
-  count   = local.enabled
+  count   = local.parent_zone_record_enabled
   zone_id = var.parent_zone_id
   name    = var.parent_zone_name
 }
@@ -28,13 +16,13 @@ data "template_file" "zone_name" {
   template = replace(var.zone_name, "$$", "$")
 
   vars = {
-    namespace        = var.namespace
-    environment      = var.environment
-    name             = var.name
-    stage            = var.stage
-    id               = module.label.id
-    attributes       = join(var.delimiter, module.label.attributes)
-    parent_zone_name = join("", data.aws_route53_zone.parent_zone.*.name)
+    namespace        = module.this.namespace
+    environment      = module.this.environment
+    name             = module.this.name
+    stage            = module.this.stage
+    id               = module.this.id
+    attributes       = join(module.this.delimiter, module.this.attributes)
+    parent_zone_name = coalesce(join("", data.aws_route53_zone.parent_zone.*.name), var.parent_zone_name)
     region           = data.aws_region.default.name
   }
 }
@@ -42,11 +30,11 @@ data "template_file" "zone_name" {
 resource "aws_route53_zone" "default" {
   count = local.enabled
   name  = join("", data.template_file.zone_name.*.rendered)
-  tags  = module.label.tags
+  tags  = module.this.tags
 }
 
 resource "aws_route53_record" "ns" {
-  count   = local.enabled
+  count   = local.parent_zone_record_enabled
   zone_id = join("", data.aws_route53_zone.parent_zone.*.zone_id)
   name    = join("", aws_route53_zone.default.*.name)
   type    = "NS"

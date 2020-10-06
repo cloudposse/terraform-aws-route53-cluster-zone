@@ -4,9 +4,7 @@ provider "aws" {
 
 module "domain" {
   source           = "../../"
-  namespace        = var.namespace
-  stage            = var.stage
-  name             = var.name
+  context          = module.this.context
   parent_zone_name = var.parent_zone_name
   zone_name        = "$${name}.$${parent_zone_name}"
 }
