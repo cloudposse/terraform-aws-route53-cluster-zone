@@ -97,12 +97,13 @@ Available targets:
 
 ```
 <!-- markdownlint-restore -->
+<!-- markdownlint-disable -->
 ## Requirements
 
 | Name | Version |
 |------|---------|
-| terraform | >= 0.12.0 |
-| aws | ~> 2.0 |
+| terraform | >= 0.12.0, < 0.14.0 |
+| aws | >= 2.0, < 4.0 |
 | null | ~> 2.0 |
 | template | ~> 2.0 |
 
@@ -110,7 +111,7 @@ Available targets:
 
 | Name | Version |
 |------|---------|
-| aws | ~> 2.0 |
+| aws | >= 2.0, < 4.0 |
 | template | ~> 2.0 |
 
 ## Inputs
@@ -139,6 +140,7 @@ Available targets:
 | zone\_id | Route53 DNS Zone ID |
 | zone\_name | Route53 DNS Zone name |
 
+<!-- markdownlint-restore -->
 
 
 
