@@ -17,6 +17,7 @@ data "template_file" "zone_name" {
 
   vars = {
     namespace        = module.this.namespace
+    tenant           = module.this.tenant
     environment      = module.this.environment
     name             = module.this.name
     stage            = module.this.stage
