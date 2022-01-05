@@ -38,7 +38,7 @@ resource "aws_route53_record" "ns" {
   zone_id = join("", data.aws_route53_zone.parent_zone.*.zone_id)
   name    = join("", aws_route53_zone.default.*.name)
   type    = "NS"
-  ttl     = "60"
+  ttl     = var.ns_record_ttl
 
   records = [
     aws_route53_zone.default[0].name_servers[0],
@@ -54,7 +54,7 @@ resource "aws_route53_record" "soa" {
   zone_id         = join("", aws_route53_zone.default.*.id)
   name            = join("", aws_route53_zone.default.*.name)
   type            = "SOA"
-  ttl             = "30"
+  ttl             = var.soa_record_ttl
 
   records = [
     format("%s. awsdns-hostmaster.amazon.com. 1 7200 900 1209600 86400", aws_route53_zone.default[0].name_servers[0])

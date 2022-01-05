@@ -21,3 +21,15 @@ variable "parent_zone_record_enabled" {
   default     = true
   description = "Whether to create the NS record on the parent zone. Useful for creating a cluster zone across accounts. `var.parent_zone_name` required if set to false."
 }
+
+variable "ns_record_ttl" {
+  type        = number
+  default     = 172800
+  description = "The time to live (TTL) of the nameserver Route53 record, in seconds."
+}
+
+variable "soa_record_ttl" {
+  type        = number
+  default     = 86400
+  description = "The time to live (TTL) of the start of authority Route53 record, in seconds."
+}
