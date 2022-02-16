@@ -13,14 +13,9 @@ data "aws_route53_zone" "parent_zone" {
 
 resource "aws_route53_zone" "default" {
   count = local.enabled
-  name  = join("", data.template_file.zone_name.*.rendered)
-  tags  = module.this.tags
-}
 
-resource "aws_route53_record" "ns" {
-  count = local.parent_zone_record_enabled
   # https://github.com/hashicorp/terraform/issues/26838#issuecomment-840022506
-  zone_id = replace(replace(replace(replace(replace(replace(replace(replace(var.zone_name,
+  name = replace(replace(replace(replace(replace(replace(replace(replace(var.zone_name,
     "$$$namespace", module.this.namespace),
     "$$$environment", module.this.environment),
     "$$$name", module.this.name),
@@ -30,9 +25,15 @@ resource "aws_route53_record" "ns" {
     "$$$parent_zone_name", coalesce(join("", data.aws_route53_zone.parent_zone.*.name), var.parent_zone_name)),
   "$$$region", data.aws_region.default.name)
 
-  name = join("", aws_route53_zone.default.*.name)
-  type = "NS"
-  ttl  = "60"
+  tags = module.this.tags
+}
+
+resource "aws_route53_record" "ns" {
+  count   = local.parent_zone_record_enabled
+  zone_id = join("", data.aws_route53_zone.parent_zone.*.zone_id)
+  name    = join("", aws_route53_zone.default.*.name)
+  type    = "NS"
+  ttl     = "60"
 
   records = [
     aws_route53_zone.default[0].name_servers[0],
