@@ -21,7 +21,7 @@ resource "aws_route53_zone" "default" {
     "$$$name", module.this.name),
     "$$$stage", module.this.stage),
     "$$$id", module.this.id),
-    "$$$attributes", module.this.attributes),
+    "$$$attributes", join(module.this.delimiter, module.this.attributes)),
     "$$$parent_zone_name", coalesce(join("", data.aws_route53_zone.parent_zone.*.name), var.parent_zone_name)),
   "$$$region", data.aws_region.default.name)
 
