@@ -11,26 +11,21 @@ data "aws_route53_zone" "parent_zone" {
   name    = var.parent_zone_name
 }
 
-data "template_file" "zone_name" {
-  count    = local.enabled
-  template = replace(var.zone_name, "$$", "$")
-
-  vars = {
-    namespace        = module.this.namespace
-    environment      = module.this.environment
-    name             = module.this.name
-    stage            = module.this.stage
-    id               = module.this.id
-    attributes       = join(module.this.delimiter, module.this.attributes)
-    parent_zone_name = coalesce(join("", data.aws_route53_zone.parent_zone.*.name), var.parent_zone_name)
-    region           = data.aws_region.default.name
-  }
-}
-
 resource "aws_route53_zone" "default" {
   count = local.enabled
-  name  = join("", data.template_file.zone_name.*.rendered)
-  tags  = module.this.tags
+
+  # https://github.com/hashicorp/terraform/issues/26838#issuecomment-840022506
+  name = replace(replace(replace(replace(replace(replace(replace(replace(var.zone_name,
+    "$${namespace}", module.this.namespace),
+    "$${environment}", module.this.environment),
+    "$${name}", module.this.name),
+    "$${stage}", module.this.stage),
+    "$${id}", module.this.id),
+    "$${attributes}", join(module.this.delimiter, module.this.attributes)),
+    "$${parent_zone_name}", coalesce(join("", data.aws_route53_zone.parent_zone.*.name), var.parent_zone_name)),
+  "$${region}", data.aws_region.default.name)
+
+  tags = module.this.tags
 }
 
 resource "aws_route53_record" "ns" {
