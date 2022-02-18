@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 provider "aws" {
-  alias  = var.secondary_region
+  alias  = "secondary_region"
   region = var.secondary_region
 }
 
@@ -18,7 +18,7 @@ module "vpc_same_region" {
 
 module "vpc_secondary_region" {
   providers = {
-    aws = "aws.${var.secondary_region}"
+    aws = aws.secondary_region
   }
 
   source  = "cloudposse/vpc/aws"
@@ -44,11 +44,11 @@ module "private_domain" {
 
   private_hosted_zone_vpc_attachments = [
     {
-      vpc_id     = module.vpc.vpc_id
+      vpc_id     = module.vpc_same_region.vpc_id
       vpc_region = var.region
     },
     {
-      vpc_id     = module.vpc.vpc_id
+      vpc_id     = module.vpc_secondary_region.vpc_id
       vpc_region = var.secondary_region
     }
   ]
