@@ -21,3 +21,12 @@ variable "parent_zone_record_enabled" {
   default     = true
   description = "Whether to create the NS record on the parent zone. Useful for creating a cluster zone across accounts. `var.parent_zone_name` required if set to false."
 }
+
+variable "private_hosted_zone_vpc_attachments" {
+  type        = list(object({
+    vpc_id     = string
+    vpc_region = string
+  }))
+  default     = null
+  description = "If creating a private hosted zone, the VPC to attach to."
+}
