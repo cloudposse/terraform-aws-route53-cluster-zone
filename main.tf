@@ -25,7 +25,7 @@ resource "aws_route53_zone" "default" {
     "$${parent_zone_name}", coalesce(join("", data.aws_route53_zone.parent_zone.*.name), var.parent_zone_name)),
   "$${region}", data.aws_region.default.name)
 
-    dynamic "vpc" {
+  dynamic "vpc" {
     for_each = var.private_hosted_zone_vpc_attachments
     content {
       vpc_id     = vpc.vpc_id

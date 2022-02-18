@@ -23,7 +23,7 @@ variable "parent_zone_record_enabled" {
 }
 
 variable "private_hosted_zone_vpc_attachments" {
-  type        = list(object({
+  type = list(object({
     vpc_id     = string
     vpc_region = string
   }))
