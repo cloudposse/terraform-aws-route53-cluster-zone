@@ -26,9 +26,11 @@ func TestExamplesComplete(t *testing.T) {
 	terraform.InitAndApply(t, terraformOptions)
 
 	// Run `terraform output` to get the value of an output variable
-	zoneName := terraform.Output(t, terraformOptions, "zone_name")
+	publicZoneName := terraform.Output(t, terraformOptions, "public_zone_name")
+	privateZoneName := terraform.Output(t, terraformOptions, "private_zone_name")
 
 	expectedZoneName := "test-domain.testing.cloudposse.co"
 	// Verify we're getting back the outputs we expect
-	assert.Equal(t, expectedZoneName, zoneName)
+	assert.Equal(t, expectedZoneName, publicZoneName)
+	assert.Equal(t, expectedZoneName, privateZoneName)
 }

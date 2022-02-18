@@ -1,5 +1,7 @@
 region = "us-west-1"
 
+secondary_region = "us-west-2"
+
 namespace = "eg"
 
 stage = "test"
