@@ -12,3 +12,9 @@ variable "parent_zone_name" {
   type        = string
   description = "Parent zone name"
 }
+
+variable "private_zone_test_enabled" {
+  type        = bool
+  default     = false
+  description = "Enable or disable the private zone test"
+}

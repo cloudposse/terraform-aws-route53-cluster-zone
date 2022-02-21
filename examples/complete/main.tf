@@ -32,6 +32,7 @@ module "vpc_secondary_region" {
 module "public_domain" {
   source           = "../../"
   context          = module.this.context
+  enabled          = ! var.private_zone_test_enabled
   parent_zone_name = var.parent_zone_name
   zone_name        = "$${name}.$${parent_zone_name}"
 }
@@ -39,6 +40,7 @@ module "public_domain" {
 module "private_domain" {
   source           = "../../"
   context          = module.this.context
+  enabled          = var.private_zone_test_enabled
   parent_zone_name = var.parent_zone_name
   zone_name        = "$${name}.$${parent_zone_name}"
 
