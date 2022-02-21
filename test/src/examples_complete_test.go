@@ -41,7 +41,7 @@ func testExamplesComplete(t *testing.T) {
 	defer terraform.Destroy(t, terraformOptions)
 
 	// This will run `terraform init` and `terraform apply` and fail the test if there are any errors
-	terraform.InitAndApply(t, terraformOptions)
+	terraform.Apply(t, terraformOptions)
 
 	// Run `terraform output` to get the value of an output variable
 	publicZoneName := terraform.Output(t, terraformOptions, "zone_name")
@@ -93,7 +93,7 @@ func testExamplesCompletePrivateZone(t *testing.T) {
 	defer terraform.Destroy(t, terraformOptions)
 
 	// This will run `terraform init` and `terraform apply` and fail the test if there are any errors
-	terraform.InitAndApply(t, terraformOptions)
+	terraform.Apply(t, terraformOptions)
 
 	// Run `terraform output` to get the value of an output variable
 	privateZoneName := terraform.Output(t, terraformOptions, "private_zone_name")
