@@ -1,20 +1,20 @@
-output "public_parent_zone_id" {
+output "parent_zone_id" {
   value = module.public_domain.parent_zone_id
 }
 
-output "public_parent_zone_name" {
+output "parent_zone_name" {
   value = module.public_domain.parent_zone_name
 }
 
-output "public_zone_id" {
+output "zone_id" {
   value = module.public_domain.zone_id
 }
 
-output "public_zone_name" {
+output "zone_name" {
   value = module.public_domain.zone_name
 }
 
-output "public_fqdn" {
+output "fqdn" {
   value = module.public_domain.fqdn
 }
 output "private_parent_zone_id" {
