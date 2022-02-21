@@ -87,9 +87,6 @@ func testExamplesCompletePrivateZone(t *testing.T) {
 		},
 		// Variables to pass to our Terraform code using -var-file options
 		VarFiles: []string{"private-zone.us-west-1.tfvars"},
-		Vars: map[string]interface{}{
-			"enabled": false,
-		},
 	}
 
 	// At the end of the test, run `terraform destroy` to clean up any resources that were created
