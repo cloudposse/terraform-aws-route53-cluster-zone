@@ -1,7 +1,7 @@
 locals {
   enabled                    = module.this.enabled
   parent_zone_record_enabled = local.enabled && var.parent_zone_record_enabled
-  public_zone                = var.private_hosted_zone_vpc_attachments == [] || var.private_hosted_zone_vpc_attachments == null
+  public_zone                = try(length(var.private_hosted_zone_vpc_attachments), 0) == 0
 }
 
 data "aws_region" "default" {
