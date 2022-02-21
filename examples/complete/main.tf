@@ -44,7 +44,7 @@ module "private_domain" {
   parent_zone_name = var.parent_zone_name
   zone_name        = "$${name}.$${parent_zone_name}"
 
-  private_hosted_zone_vpc_attachments = [
+  private_hosted_zone_vpc_attachments = var.private_zone_test_enabled ? [
     {
       vpc_id     = module.vpc_same_region.vpc_id
       vpc_region = var.region
@@ -53,5 +53,5 @@ module "private_domain" {
       vpc_id     = module.vpc_secondary_region.vpc_id
       vpc_region = var.secondary_region
     }
-  ]
+  ] : []
 }

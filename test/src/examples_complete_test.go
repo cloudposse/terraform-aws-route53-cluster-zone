@@ -45,12 +45,10 @@ func testExamplesComplete(t *testing.T) {
 
 	// Run `terraform output` to get the value of an output variable
 	publicZoneName := terraform.Output(t, terraformOptions, "zone_name")
-	privateZoneName := terraform.Output(t, terraformOptions, "private_zone_name")
 
 	expectedZoneName := "test-domain.testing.cloudposse.co"
 	// Verify we're getting back the outputs we expect
 	assert.Equal(t, expectedZoneName, publicZoneName)
-	assert.Equal(t, expectedZoneName, privateZoneName)
 }
 
 func testExamplesCompleteDisabled(t *testing.T) {
@@ -98,5 +96,12 @@ func testExamplesCompletePrivateZone(t *testing.T) {
 	defer terraform.Destroy(t, terraformOptions)
 
 	// This will run `terraform init` and `terraform apply` and fail the test if there are any errors
-	terraform.Apply(t, terraformOptions)
+	terraform.InitAndApply(t, terraformOptions)
+
+	// Run `terraform output` to get the value of an output variable
+	privateZoneName := terraform.Output(t, terraformOptions, "private_zone_name")
+
+	expectedZoneName := "test-domain-private-zone.testing.cloudposse.co"
+	// Verify we're getting back the outputs we expect
+	assert.Equal(t, expectedZoneName, privateZoneName)
 }
