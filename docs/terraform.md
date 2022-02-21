@@ -4,14 +4,14 @@
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13.0 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 2.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 3.0 |
 | <a name="requirement_null"></a> [null](#requirement\_null) | >= 2.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 2.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.0 |
 
 ## Modules
 
@@ -64,6 +64,7 @@
 | <a name="output_fqdn"></a> [fqdn](#output\_fqdn) | Fully-qualified domain name |
 | <a name="output_parent_zone_id"></a> [parent\_zone\_id](#output\_parent\_zone\_id) | ID of the hosted zone to contain this record |
 | <a name="output_parent_zone_name"></a> [parent\_zone\_name](#output\_parent\_zone\_name) | Name of the hosted zone to contain this record |
+| <a name="output_type"></a> [type](#output\_type) | Whether this is a public or private zone |
 | <a name="output_zone_id"></a> [zone\_id](#output\_zone\_id) | Route53 DNS Zone ID |
 | <a name="output_zone_name"></a> [zone\_name](#output\_zone\_name) | Route53 DNS Zone name |
 | <a name="output_zone_name_servers"></a> [zone\_name\_servers](#output\_zone\_name\_servers) | Route53 DNS Zone Name Servers |
