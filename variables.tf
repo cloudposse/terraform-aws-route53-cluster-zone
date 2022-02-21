@@ -28,5 +28,5 @@ variable "private_hosted_zone_vpc_attachments" {
     vpc_region = string
   }))
   default     = []
-  description = "If creating a private hosted zone, the VPC to attach to."
+  description = "If creating a private hosted zone, the VPC(s) to attach to."
 }
