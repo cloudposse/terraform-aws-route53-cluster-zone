@@ -28,8 +28,8 @@ resource "aws_route53_zone" "default" {
   dynamic "vpc" {
     for_each = var.private_hosted_zone_vpc_attachments
     content {
-      vpc_id     = vpc.vpc_id
-      vpc_region = vpc.vpc_region
+      vpc_id     = vpc.value.vpc_id
+      vpc_region = vpc.value.vpc_region
     }
   }
 
