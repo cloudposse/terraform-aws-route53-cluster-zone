@@ -27,3 +27,8 @@ output "fqdn" {
   value       = join("", aws_route53_zone.default.*.name)
   description = "Fully-qualified domain name"
 }
+
+output "type" {
+  value       = local.enabled ? local.public_zone ? "public" : "private" : null
+  description = "Whether this is a public or private zone"
+}

@@ -1,18 +1,21 @@
 locals {
-  enabled                    = module.this.enabled ? 1 : 0
-  parent_zone_record_enabled = var.parent_zone_record_enabled && module.this.enabled ? 1 : 0
+  enabled                    = module.this.enabled
+  parent_zone_record_enabled = local.enabled && var.parent_zone_record_enabled
+  public_zone                = var.private_hosted_zone_vpc_attachments == [] || var.private_hosted_zone_vpc_attachments == null
 }
 
-data "aws_region" "default" {}
+data "aws_region" "default" {
+  count = local.enabled ? 1 : 0
+}
 
 data "aws_route53_zone" "parent_zone" {
-  count   = local.parent_zone_record_enabled
+  count   = local.parent_zone_record_enabled ? 1 : 0
   zone_id = var.parent_zone_id
   name    = var.parent_zone_name
 }
 
 resource "aws_route53_zone" "default" {
-  count = local.enabled
+  count = local.enabled ? 1 : 0
 
   # https://github.com/hashicorp/terraform/issues/26838#issuecomment-840022506
   name = replace(replace(replace(replace(replace(replace(replace(replace(var.zone_name,
@@ -23,7 +26,7 @@ resource "aws_route53_zone" "default" {
     "$${id}", module.this.id),
     "$${attributes}", join(module.this.delimiter, module.this.attributes)),
     "$${parent_zone_name}", coalesce(join("", data.aws_route53_zone.parent_zone.*.name), var.parent_zone_name)),
-  "$${region}", data.aws_region.default.name)
+  "$${region}", join("", data.aws_region.default.*.name))
 
   dynamic "vpc" {
     for_each = var.private_hosted_zone_vpc_attachments
@@ -37,7 +40,7 @@ resource "aws_route53_zone" "default" {
 }
 
 resource "aws_route53_record" "ns" {
-  count   = local.parent_zone_record_enabled
+  count   = local.parent_zone_record_enabled && local.public_zone ? 1 : 0
   zone_id = join("", data.aws_route53_zone.parent_zone.*.zone_id)
   name    = join("", aws_route53_zone.default.*.name)
   type    = "NS"
@@ -51,8 +54,10 @@ resource "aws_route53_record" "ns" {
   ]
 }
 
+# Attempting to create an SOA for a private zone will fail with:
+# FATAL problem: DomainLabelEmpty (Domain label is empty)
 resource "aws_route53_record" "soa" {
-  count           = local.enabled
+  count           = local.enabled && local.public_zone ? 1 : 0
   allow_overwrite = true
   zone_id         = join("", aws_route53_zone.default.*.id)
   name            = join("", aws_route53_zone.default.*.name)

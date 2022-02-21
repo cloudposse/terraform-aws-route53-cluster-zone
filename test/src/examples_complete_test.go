@@ -23,34 +23,6 @@ func TestExamplesComplete(t *testing.T) {
 	t.Run("PrivateZone", testExamplesCompletePrivateZone)
 }
 
-func testExamplesComplete(t *testing.T) {
-	t.Parallel()
-
-	terraformOptions := &terraform.Options{
-		// The path to where our Terraform code is located
-		TerraformDir: "../../examples/complete",
-		Upgrade:      true,
-		EnvVars: map[string]string{
-			"TF_CLI_ARGS": "-state=terraform-enabled.tfstate",
-		},
-		// Variables to pass to our Terraform code using -var-file options
-		VarFiles: []string{"fixtures.us-west-1.tfvars"},
-	}
-
-	// At the end of the test, run `terraform destroy` to clean up any resources that were created
-	defer terraform.Destroy(t, terraformOptions)
-
-	// This will run `terraform init` and `terraform apply` and fail the test if there are any errors
-	terraform.Apply(t, terraformOptions)
-
-	// Run `terraform output` to get the value of an output variable
-	publicZoneName := terraform.Output(t, terraformOptions, "zone_name")
-
-	expectedZoneName := "test-domain.testing.cloudposse.co"
-	// Verify we're getting back the outputs we expect
-	assert.Equal(t, expectedZoneName, publicZoneName)
-}
-
 func testExamplesCompleteDisabled(t *testing.T) {
 	t.Parallel()
 
@@ -75,6 +47,36 @@ func testExamplesCompleteDisabled(t *testing.T) {
 	terraform.Apply(t, terraformOptions)
 }
 
+func testExamplesComplete(t *testing.T) {
+	t.Parallel()
+
+	terraformOptions := &terraform.Options{
+		// The path to where our Terraform code is located
+		TerraformDir: "../../examples/complete",
+		Upgrade:      true,
+		EnvVars: map[string]string{
+			"TF_CLI_ARGS": "-state=terraform-enabled.tfstate",
+		},
+		// Variables to pass to our Terraform code using -var-file options
+		VarFiles: []string{"fixtures.us-west-1.tfvars"},
+	}
+
+	// At the end of the test, run `terraform destroy` to clean up any resources that were created
+	defer terraform.Destroy(t, terraformOptions)
+
+	// This will run `terraform init` and `terraform apply` and fail the test if there are any errors
+	terraform.Apply(t, terraformOptions)
+
+	// Run `terraform output` to get the value of an output variable
+	zoneName := terraform.Output(t, terraformOptions, "zone_name")
+
+	expectedZoneName := "test-domain.testing.cloudposse.co"
+	// Verify we're getting back the outputs we expect
+	assert.Equal(t, expectedZoneName, zoneName)
+}
+
+
+
 func testExamplesCompletePrivateZone(t *testing.T) {
 	t.Parallel()
 
@@ -96,9 +98,9 @@ func testExamplesCompletePrivateZone(t *testing.T) {
 	terraform.Apply(t, terraformOptions)
 
 	// Run `terraform output` to get the value of an output variable
-	privateZoneName := terraform.Output(t, terraformOptions, "private_zone_name")
+	zoneName := terraform.Output(t, terraformOptions, "zone_name")
 
 	expectedZoneName := "test-domain-private-zone.testing.cloudposse.co"
 	// Verify we're getting back the outputs we expect
-	assert.Equal(t, expectedZoneName, privateZoneName)
+	assert.Equal(t, expectedZoneName, zoneName)
 }

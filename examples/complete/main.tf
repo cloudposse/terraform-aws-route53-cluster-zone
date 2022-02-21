@@ -11,6 +11,8 @@ module "vpc_same_region" {
   source  = "cloudposse/vpc/aws"
   version = "0.28.1"
 
+  enabled = module.this.enabled && var.private_zone_test_enabled
+
   cidr_block = "172.16.0.0/16"
 
   context = module.this.context
@@ -24,23 +26,17 @@ module "vpc_secondary_region" {
   source  = "cloudposse/vpc/aws"
   version = "0.28.1"
 
+  enabled = module.this.enabled && var.private_zone_test_enabled
+
   cidr_block = "172.17.0.0/16"
 
   context = module.this.context
 }
 
-module "public_domain" {
+module "domain" {
   source           = "../../"
   context          = module.this.context
-  enabled          = module.this.enabled && ! var.private_zone_test_enabled
-  parent_zone_name = var.parent_zone_name
-  zone_name        = "$${name}.$${parent_zone_name}"
-}
-
-module "private_domain" {
-  source           = "../../"
-  context          = module.this.context
-  enabled          = module.this.enabled && var.private_zone_test_enabled
+  enabled          = module.this.enabled
   parent_zone_name = var.parent_zone_name
   zone_name        = "$${name}.$${parent_zone_name}"
 
