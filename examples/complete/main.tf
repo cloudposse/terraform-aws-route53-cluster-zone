@@ -36,7 +36,6 @@ module "vpc_secondary_region" {
 module "domain" {
   source           = "../../"
   context          = module.this.context
-  enabled          = module.this.enabled
   parent_zone_name = var.parent_zone_name
   zone_name        = "$${name}.$${parent_zone_name}"
 
