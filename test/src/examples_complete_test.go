@@ -45,6 +45,9 @@ func testExamplesCompleteDisabled(t *testing.T) {
 
 	// This will run `terraform init` and `terraform apply` and fail the test if there are any errors
 	terraform.Apply(t, terraformOptions)
+
+	zoneType := terraform.Output(t, terraformOptions, "type")
+	assert.Equal(t, "", zoneType)
 }
 
 func testExamplesComplete(t *testing.T) {
@@ -69,10 +72,12 @@ func testExamplesComplete(t *testing.T) {
 
 	// Run `terraform output` to get the value of an output variable
 	zoneName := terraform.Output(t, terraformOptions, "zone_name")
+	zoneType := terraform.Output(t, terraformOptions, "type")
 
 	expectedZoneName := "test-domain.testing.cloudposse.co"
 	// Verify we're getting back the outputs we expect
 	assert.Equal(t, expectedZoneName, zoneName)
+	assert.Equal(t, "public", zoneType)
 }
 
 
@@ -99,8 +104,10 @@ func testExamplesCompletePrivateZone(t *testing.T) {
 
 	// Run `terraform output` to get the value of an output variable
 	zoneName := terraform.Output(t, terraformOptions, "zone_name")
+	zoneType := terraform.Output(t, terraformOptions, "type")
 
 	expectedZoneName := "test-domain-private-zone.testing.cloudposse.co"
 	// Verify we're getting back the outputs we expect
 	assert.Equal(t, expectedZoneName, zoneName)
+	assert.Equal(t, "private", zoneType)
 }

@@ -17,3 +17,7 @@ output "zone_name" {
 output "fqdn" {
   value = module.domain.fqdn
 }
+
+output "type" {
+  value = module.domain.type
+}
