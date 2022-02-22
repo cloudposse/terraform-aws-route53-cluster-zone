@@ -16,7 +16,7 @@ resource "aws_route53_zone" "default" {
   count = local.enabled
 
   # https://github.com/hashicorp/terraform/issues/26838#issuecomment-840022506
-  name = replace(replace(replace(replace(replace(replace(replace(replace(replace(var.zone_name,
+  name = replace(replace(replace(replace(replace(replace(replace(replace(replace(local.zone_name,
     "$${namespace}", module.this.namespace),
     "$${tenant}", module.this.tenant),
     "$${environment}", module.this.environment),
