@@ -1,7 +1,7 @@
 locals {
-  enabled                    = module.this.enabled ? 1 : 0
-  parent_zone_record_enabled = var.parent_zone_record_enabled && module.this.enabled ? 1 : 0
-  parent_zone_name           = coalesce(var.parent_zone_name, "no_parent_zone_name")
+  enabled                    = module.this.enabled
+  parent_zone_record_enabled = var.parent_zone_record_enabled && module.this.enabled
+  zone_name                  = local.parent_zone_record_enabled ? var.zone_name : replace(var.zone_name, ".$${parent_zone_name}", "")
 }
 
 data "aws_region" "default" {}
@@ -24,7 +24,7 @@ resource "aws_route53_zone" "default" {
     "$${stage}", module.this.stage),
     "$${id}", module.this.id),
     "$${attributes}", join(module.this.delimiter, module.this.attributes)),
-    "$${parent_zone_name}", coalesce(join("", data.aws_route53_zone.parent_zone.*.name), local.parent_zone_name)),
+    "$${parent_zone_name}", coalesce(join("", data.aws_route53_zone.parent_zone.*.name), var.parent_zone_name, "none")),
   "$${region}", data.aws_region.default.name)
 
   tags = module.this.tags
