@@ -38,6 +38,6 @@ variable "soa_record_ttl" {
   description = <<-EOT
   The time to live (TTL) of the start of authority Route53 record, in seconds.
   
-  The default value for AWS-managed NS records is `900`.
+  The default value for AWS-managed SOA records is `900`.
   EOT
 }
