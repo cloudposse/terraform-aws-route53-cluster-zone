@@ -24,20 +24,20 @@ variable "parent_zone_record_enabled" {
 
 variable "ns_record_ttl" {
   type        = number
-  default     = 172800
+  default     = 60
   description = <<-EOT
   The time to live (TTL) of the nameserver Route53 record, in seconds.
   
-  The default value for AWS-managed NS records is `172800`.
+  The default value for AWS-managed NS records is `172800`, but Cloud Posse prefers shorter TTLs as they result in better availability, despite not being optimal for caching.
   EOT
 }
 
 variable "soa_record_ttl" {
   type        = number
-  default     = 900
+  default     = 30
   description = <<-EOT
   The time to live (TTL) of the start of authority Route53 record, in seconds.
   
-  The default value for AWS-managed SOA records is `900`.
+  The default value for AWS-managed SOA records is `900`, but Cloud Posse prefers shorter TTLs as they result in better availability, despite not being optimal for caching.
   EOT
 }
