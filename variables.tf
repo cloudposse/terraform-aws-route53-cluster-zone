@@ -24,12 +24,22 @@ variable "parent_zone_record_enabled" {
 
 variable "ns_record_ttl" {
   type        = number
-  default     = 172800
-  description = "The time to live (TTL) of the nameserver Route53 record, in seconds."
+  default     = 60
+  description = <<-EOT
+  The time to live (TTL) of the nameserver Route53 record, in seconds.
+  
+  Note that the default value of `60` is very low, but is kept at that value to preserve backwards compatibility.
+  Higher values such as `172800` are suitable for nameserver records.
+  EOT
 }
 
 variable "soa_record_ttl" {
   type        = number
-  default     = 900
-  description = "The time to live (TTL) of the start of authority Route53 record, in seconds."
+  default     = 30
+  description = <<-EOT
+  The time to live (TTL) of the start of authority Route53 record, in seconds.
+  
+  Note that the default value of `30` is very low, but is kept at that value to preserve backwards compatibility.
+  Higher values such as `900` are suitable for SOA records. 
+  EOT
 }
