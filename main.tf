@@ -1,13 +1,13 @@
 locals {
-  enabled                    = module.this.enabled
-  parent_zone_record_enabled = var.parent_zone_record_enabled && module.this.enabled
+  enabled                    = module.this.enabled ? 1 : 0
+  parent_zone_record_enabled = var.parent_zone_record_enabled && module.this.enabled ? 1 : 0
   zone_name                  = local.parent_zone_record_enabled ? var.zone_name : replace(var.zone_name, ".$${parent_zone_name}", "")
 }
 
 data "aws_region" "default" {}
 
 data "aws_route53_zone" "parent_zone" {
-  count   = local.parent_zone_record_enabled ? 1 : 0
+  count   = local.parent_zone_record_enabled
   zone_id = var.parent_zone_id
   name    = var.parent_zone_name
 }
@@ -31,7 +31,7 @@ resource "aws_route53_zone" "default" {
 }
 
 resource "aws_route53_record" "ns" {
-  count   = local.parent_zone_record_enabled ? 1 : 0
+  count   = local.parent_zone_record_enabled
   zone_id = join("", data.aws_route53_zone.parent_zone.*.zone_id)
   name    = join("", aws_route53_zone.default.*.name)
   type    = "NS"
