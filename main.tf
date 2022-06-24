@@ -1,7 +1,7 @@
 locals {
   enabled                    = module.this.enabled ? 1 : 0
   parent_zone_record_enabled = var.parent_zone_record_enabled && module.this.enabled ? 1 : 0
-  zone_name                  = local.parent_zone_record_enabled ? var.zone_name : replace(var.zone_name, ".$${parent_zone_name}", "")
+  zone_name                  = local.parent_zone_record_enabled == 1 ? var.zone_name : replace(var.zone_name, ".$${parent_zone_name}", "")
 }
 
 data "aws_region" "default" {}
