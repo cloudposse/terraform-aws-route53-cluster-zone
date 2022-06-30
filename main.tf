@@ -1,6 +1,7 @@
 locals {
   enabled                    = module.this.enabled ? 1 : 0
   parent_zone_record_enabled = var.parent_zone_record_enabled && module.this.enabled ? 1 : 0
+  zone_name                  = local.parent_zone_record_enabled == 1 ? var.zone_name : replace(var.zone_name, ".$${parent_zone_name}", "")
 }
 
 data "aws_region" "default" {}
@@ -15,7 +16,7 @@ resource "aws_route53_zone" "default" {
   count = local.enabled
 
   # https://github.com/hashicorp/terraform/issues/26838#issuecomment-840022506
-  name = replace(replace(replace(replace(replace(replace(replace(replace(replace(var.zone_name,
+  name = replace(replace(replace(replace(replace(replace(replace(replace(replace(local.zone_name,
     "$${namespace}", module.this.namespace),
     "$${tenant}", module.this.tenant),
     "$${environment}", module.this.environment),
@@ -23,9 +24,8 @@ resource "aws_route53_zone" "default" {
     "$${stage}", module.this.stage),
     "$${id}", module.this.id),
     "$${attributes}", join(module.this.delimiter, module.this.attributes)),
-    "$${parent_zone_name}", coalesce(join("", data.aws_route53_zone.parent_zone.*.name), var.parent_zone_name)),
-    "$${region}", data.aws_region.default.name
-  )
+    "$${parent_zone_name}", coalesce(join("", data.aws_route53_zone.parent_zone.*.name), var.parent_zone_name, "none")),
+  "$${region}", data.aws_region.default.name)
 
   tags = module.this.tags
 }

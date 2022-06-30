@@ -7,13 +7,13 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-// Test the Terraform module in examples/complete using Terratest.
-func TestExamplesComplete(t *testing.T) {
+// Test the Terraform module in examples/without_parent_zone using Terratest.
+func TestExamplesWithoutParentZone(t *testing.T) {
 	t.Parallel()
 
 	terraformOptions := &terraform.Options{
 		// The path to where our Terraform code is located
-		TerraformDir: "../../examples/complete",
+		TerraformDir: "../../examples/without_parent_zone",
 		Upgrade:      true,
 		// Variables to pass to our Terraform code using -var-file options
 		VarFiles: []string{"fixtures.us-east-2.tfvars"},
@@ -28,7 +28,7 @@ func TestExamplesComplete(t *testing.T) {
 	// Run `terraform output` to get the value of an output variable
 	zoneName := terraform.Output(t, terraformOptions, "zone_name")
 
-	expectedZoneName := "test-domain.testing.cloudposse.co"
+	expectedZoneName := "testing.cloudposse.co"
 	// Verify we're getting back the outputs we expect
 	assert.Equal(t, expectedZoneName, zoneName)
 }
