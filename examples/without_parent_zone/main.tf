@@ -5,6 +5,6 @@ provider "aws" {
 module "domain" {
   source                     = "../../"
   context                    = module.this.context
-  zone_name                  = "$${name}"
+  zone_name                  = var.zone_name
   parent_zone_record_enabled = false
 }
