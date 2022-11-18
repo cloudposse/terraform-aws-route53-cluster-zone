@@ -44,3 +44,12 @@ variable "soa_record_ttl" {
     is not recommended for production. Typical production values are in the range of 300 to 3600.
     EOT
 }
+
+variable "private_hosted_zone_vpc_attachments" {
+  type = list(object({
+    vpc_id     = string
+    vpc_region = string
+  }))
+  default     = []
+  description = "If creating a private hosted zone, the VPC(s) to attach to."
+}
