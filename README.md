@@ -132,13 +132,13 @@ Available targets:
 | Name | Version |
 |------|---------|
 | <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 0.13.0 |
-| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 2.0 |
+| <a name="requirement_aws"></a> [aws](#requirement\_aws) | >= 3.0 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 2.0 |
+| <a name="provider_aws"></a> [aws](#provider\_aws) | >= 3.0 |
 
 ## Modules
 
@@ -178,6 +178,7 @@ Available targets:
 | <a name="input_parent_zone_id"></a> [parent\_zone\_id](#input\_parent\_zone\_id) | ID of the hosted zone to contain this record  (or specify `parent_zone_name`) | `string` | `""` | no |
 | <a name="input_parent_zone_name"></a> [parent\_zone\_name](#input\_parent\_zone\_name) | Name of the hosted zone to contain this record (or specify `parent_zone_id`) | `string` | `""` | no |
 | <a name="input_parent_zone_record_enabled"></a> [parent\_zone\_record\_enabled](#input\_parent\_zone\_record\_enabled) | Whether to create the NS record on the parent zone. Useful for creating a cluster zone across accounts. `var.parent_zone_name` required if set to false. | `bool` | `true` | no |
+| <a name="input_private_hosted_zone_vpc_attachments"></a> [private\_hosted\_zone\_vpc\_attachments](#input\_private\_hosted\_zone\_vpc\_attachments) | If creating a private hosted zone, the VPC(s) to attach to. | <pre>list(object({<br>    vpc_id     = string<br>    vpc_region = string<br>  }))</pre> | `[]` | no |
 | <a name="input_regex_replace_chars"></a> [regex\_replace\_chars](#input\_regex\_replace\_chars) | Terraform regular expression (regex) string.<br>Characters matching the regex will be removed from the ID elements.<br>If not set, `"/[^a-zA-Z0-9-]/"` is used to remove all characters other than hyphens, letters and digits. | `string` | `null` | no |
 | <a name="input_soa_record_ttl"></a> [soa\_record\_ttl](#input\_soa\_record\_ttl) | The time to live (TTL) of the Start of Authority Route53 record, in seconds.<br>This sets the maximum time a negative (no data) query can be cached.<br><br>The default value is short for responsiveness to changes during development and <br>is not recommended for production. Typical production values are in the range of 300 to 3600. | `number` | `30` | no |
 | <a name="input_stage"></a> [stage](#input\_stage) | ID element. Usually used to indicate role, e.g. 'prod', 'staging', 'source', 'build', 'test', 'deploy', 'release' | `string` | `null` | no |
@@ -192,6 +193,7 @@ Available targets:
 | <a name="output_fqdn"></a> [fqdn](#output\_fqdn) | Fully-qualified domain name |
 | <a name="output_parent_zone_id"></a> [parent\_zone\_id](#output\_parent\_zone\_id) | ID of the hosted zone to contain this record |
 | <a name="output_parent_zone_name"></a> [parent\_zone\_name](#output\_parent\_zone\_name) | Name of the hosted zone to contain this record |
+| <a name="output_type"></a> [type](#output\_type) | Whether this is a public or private zone |
 | <a name="output_zone_id"></a> [zone\_id](#output\_zone\_id) | Route53 DNS Zone ID |
 | <a name="output_zone_name"></a> [zone\_name](#output\_zone\_name) | Route53 DNS Zone name |
 | <a name="output_zone_name_servers"></a> [zone\_name\_servers](#output\_zone\_name\_servers) | Route53 DNS Zone Name Servers |
@@ -361,7 +363,7 @@ Check out [our other projects][github], [follow us on twitter][twitter], [apply 
 
 [![README Footer][readme_footer_img]][readme_footer_link]
 [![Beacon][beacon]][website]
-
+<!-- markdownlint-disable -->
   [logo]: https://cloudposse.com/logo-300x69.svg
   [docs]: https://cpco.io/docs?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-route53-cluster-zone&utm_content=docs
   [website]: https://cpco.io/homepage?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-route53-cluster-zone&utm_content=website
@@ -392,3 +394,4 @@ Check out [our other projects][github], [follow us on twitter][twitter], [apply 
   [share_googleplus]: https://plus.google.com/share?url=https://github.com/cloudposse/terraform-aws-route53-cluster-zone
   [share_email]: mailto:?subject=terraform-aws-route53-cluster-zone&body=https://github.com/cloudposse/terraform-aws-route53-cluster-zone
   [beacon]: https://ga-beacon.cloudposse.com/UA-76589703-4/cloudposse/terraform-aws-route53-cluster-zone?pixel&cs=github&cm=readme&an=terraform-aws-route53-cluster-zone
+<!-- markdownlint-restore -->
