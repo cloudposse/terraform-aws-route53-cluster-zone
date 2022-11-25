@@ -1,13 +1,8 @@
 locals {
-<<<<<<< HEAD
   enabled                    = module.this.enabled ? 1 : 0
   parent_zone_record_enabled = var.parent_zone_record_enabled && module.this.enabled ? 1 : 0
   zone_name                  = local.parent_zone_record_enabled == 1 ? var.zone_name : replace(var.zone_name, ".$${parent_zone_name}", "")
-=======
-  enabled                    = module.this.enabled
-  parent_zone_record_enabled = local.enabled && var.parent_zone_record_enabled
   public_zone                = try(length(var.private_hosted_zone_vpc_attachments), 0) == 0
->>>>>>> kevcube/support_private_hosted_zone
 }
 
 data "aws_region" "default" {
@@ -32,12 +27,8 @@ resource "aws_route53_zone" "default" {
     "$${stage}", module.this.stage),
     "$${id}", module.this.id),
     "$${attributes}", join(module.this.delimiter, module.this.attributes)),
-<<<<<<< HEAD
     "$${parent_zone_name}", coalesce(join("", data.aws_route53_zone.parent_zone.*.name), var.parent_zone_name, "none")),
-  "$${region}", data.aws_region.default.name)
-=======
-    "$${parent_zone_name}", coalesce(join("", data.aws_route53_zone.parent_zone.*.name), var.parent_zone_name)),
-  "$${region}", join("", data.aws_region.default.*.name))
+    "$${region}", data.aws_region.default.name)
 
   dynamic "vpc" {
     for_each = var.private_hosted_zone_vpc_attachments
@@ -46,7 +37,6 @@ resource "aws_route53_zone" "default" {
       vpc_region = vpc.value.vpc_region
     }
   }
->>>>>>> kevcube/support_private_hosted_zone
 
   tags = module.this.tags
 }
