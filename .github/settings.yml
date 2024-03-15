@@ -3,3 +3,5 @@ _extends: .github
 repository:
   name: terraform-aws-route53-cluster-zone
   description: Terraform module to easily define consistent cluster domains on Route53 (e.g. `prod.ourcompany.com`)
+  homepage: https://cloudposse.com/accelerate
+  topics: terraform, terraform-modules, route53, hcl2
