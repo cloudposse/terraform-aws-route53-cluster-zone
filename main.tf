@@ -2,6 +2,7 @@ locals {
   enabled                    = module.this.enabled ? 1 : 0
   parent_zone_record_enabled = var.parent_zone_record_enabled && module.this.enabled ? 1 : 0
   zone_name                  = local.parent_zone_record_enabled == 1 ? var.zone_name : replace(var.zone_name, ".$${parent_zone_name}", "")
+  private_zone               = length(var.private_hosted_zone_vpc_attachments) == 0 ? false : true
 }
 
 data "aws_region" "default" {}

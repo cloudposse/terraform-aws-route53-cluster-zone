@@ -27,3 +27,7 @@ output "fqdn" {
   value       = join("", aws_route53_zone.default.*.name)
   description = "Fully-qualified domain name"
 }
+
+output "private_zone" {
+  value = local.private_zone
+}
