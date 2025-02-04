@@ -37,7 +37,7 @@ Terraform module to easily define consistent cluster domains on `Route53`.
 >
 > <details>
 > <summary><strong>Watch demo of using Atmos with Terraform</strong></summary>
-> <img src="https://github.com/cloudposse/atmos/blob/master/docs/demo.gif?raw=true"/><br/>
+> <img src="https://github.com/cloudposse/atmos/blob/main/docs/demo.gif?raw=true"/><br/>
 > <i>Example of running <a href="https://atmos.tools"><code>atmos</code></a> to manage infrastructure from our <a href="https://atmos.tools/quick-start/">Quick Start</a> tutorial.</i>
 > </detalis>
 
@@ -140,6 +140,7 @@ Available targets:
 | <a name="input_parent_zone_id"></a> [parent\_zone\_id](#input\_parent\_zone\_id) | ID of the hosted zone to contain this record  (or specify `parent_zone_name`) | `string` | `""` | no |
 | <a name="input_parent_zone_name"></a> [parent\_zone\_name](#input\_parent\_zone\_name) | Name of the hosted zone to contain this record (or specify `parent_zone_id`) | `string` | `""` | no |
 | <a name="input_parent_zone_record_enabled"></a> [parent\_zone\_record\_enabled](#input\_parent\_zone\_record\_enabled) | Whether to create the NS record on the parent zone. Useful for creating a cluster zone across accounts. `var.parent_zone_name` required if set to false. | `bool` | `true` | no |
+| <a name="input_private_hosted_zone_vpc_attachments"></a> [private\_hosted\_zone\_vpc\_attachments](#input\_private\_hosted\_zone\_vpc\_attachments) | If creating a private hosted zone, the VPC to attach to. | <pre>list(object({<br/>    vpc_id     = string<br/>    vpc_region = string<br/>  }))</pre> | `[]` | no |
 | <a name="input_regex_replace_chars"></a> [regex\_replace\_chars](#input\_regex\_replace\_chars) | Terraform regular expression (regex) string.<br/>Characters matching the regex will be removed from the ID elements.<br/>If not set, `"/[^a-zA-Z0-9-]/"` is used to remove all characters other than hyphens, letters and digits. | `string` | `null` | no |
 | <a name="input_soa_record_ttl"></a> [soa\_record\_ttl](#input\_soa\_record\_ttl) | The time to live (TTL) of the Start of Authority Route53 record, in seconds.<br/>This sets the maximum time a negative (no data) query can be cached.<br/><br/>The default value is short for responsiveness to changes during development and <br/>is not recommended for production. Typical production values are in the range of 300 to 3600. | `number` | `30` | no |
 | <a name="input_stage"></a> [stage](#input\_stage) | ID element. Usually used to indicate role, e.g. 'prod', 'staging', 'source', 'build', 'test', 'deploy', 'release' | `string` | `null` | no |
@@ -154,6 +155,7 @@ Available targets:
 | <a name="output_fqdn"></a> [fqdn](#output\_fqdn) | Fully-qualified domain name |
 | <a name="output_parent_zone_id"></a> [parent\_zone\_id](#output\_parent\_zone\_id) | ID of the hosted zone to contain this record |
 | <a name="output_parent_zone_name"></a> [parent\_zone\_name](#output\_parent\_zone\_name) | Name of the hosted zone to contain this record |
+| <a name="output_private_zone"></a> [private\_zone](#output\_private\_zone) | n/a |
 | <a name="output_zone_id"></a> [zone\_id](#output\_zone\_id) | Route53 DNS Zone ID |
 | <a name="output_zone_name"></a> [zone\_name](#output\_zone\_name) | Route53 DNS Zone name |
 | <a name="output_zone_name_servers"></a> [zone\_name\_servers](#output\_zone\_name\_servers) | Route53 DNS Zone Name Servers |
@@ -283,7 +285,7 @@ All other trademarks referenced herein are the property of their respective owne
 
 
 ---
-Copyright © 2017-2024 [Cloud Posse, LLC](https://cpco.io/copyright)
+Copyright © 2017-2025 [Cloud Posse, LLC](https://cpco.io/copyright)
 
 
 <a href="https://cloudposse.com/readme/footer/link?utm_source=github&utm_medium=readme&utm_campaign=cloudposse/terraform-aws-route53-cluster-zone&utm_content=readme_footer_link"><img alt="README footer" src="https://cloudposse.com/readme/footer/img"/></a>
